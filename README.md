@@ -4,4 +4,4 @@ The goal of this project is to build a model where users can input a "Home Team"
 
 Currently, I am in the process of scraping relevant data from www.pro-football-reference.com. 
 
-The training dataset includes game data for each team from seasons 2021 to 1994. The test dataset will utilize the results from the current 2022 season. 
+The training dataset includes game data for each team from seasons 2021 to 1994. The test dataset will ucontain the results from the current 2022 season. 
