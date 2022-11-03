@@ -15,6 +15,9 @@ We found many missing values so consider the following:
 - The column to the left of "Opp" is whether the team was the home team or the away team. It was left blank if the team was playing a home game. It had a value of @ for an away game.
 - For column "TO", instead of listing the value as 0, the website left the value blank.
 
+Every week, there is a new row of data that becomes available for each team. Therefore, we will fetch new data on Tuesdays since an NFL week ends at the conclusion of the Monday Night Football game. Accordingly, we have created a function called scrape() inside the Fetch class within the scraping.py file. This will automate the retrieval process of obtaining the raw data for us on a weekly basis.
 
-When splitting the dataset, the training dataset should include game data for each team from seasons 2021 to 1994. The test dataset should contain the results from the current 2022 season. 
+Currently, we are still cleansing the dataset. Specifically, we are converting categorical values into numerical data types to prepare the dataset for predictive modeling.
+
+When splitting the dataset, the training dataset should include game data for each team from seasons 2021 to 1994. The testing dataset should contain the results from the current 2022 season. 
 
