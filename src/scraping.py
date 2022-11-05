@@ -1,18 +1,19 @@
 # common imports
 import requests
 import time
+#from tqdm import tqdm_gui
 from bs4 import BeautifulSoup
 import numpy as np
 import pandas as pd
 
-class Fetch:
+class Scraper:
     
     def __init__(self):
         return None
 
     def scrape(self):
         """
-        This function fetches game data from www.pro-football-reference.com for each team and each season from 1993-2022.
+        This function fetches game data from www.pro-football-reference.com for each team and each season from 1994-2022.
         The function also manipulates the dataset's missing values to prepare the raw version of the dataset.
         This function will create a .csv file into the working directory.
         """
@@ -39,6 +40,10 @@ class Fetch:
             url = url.replace(str(year), str(int(year)-1))
 
             for team_url in team_urls:
+                #my_list = ['aaa', 'bbb', 'ccc', 'ddd', 'eee']
+                #for i in tqdm_gui(my_list): # - Not working
+                #for j in [2, 3, 1, 2]: # - Causes the loop to hang
+                    #time.sleep(j)
                 team_name = team_url.split("/")[-2]
                 firstdata = requests.get(team_url)
                 sched = pd.read_html(firstdata.text, header = None, match = "Schedule & Game Results")
@@ -102,5 +107,5 @@ class Fetch:
         df = df[df['result'].notna()]
 
         # using pandas to convert the dataframe into a csv file.
-        return df.to_csv("Data/scraped_data.csv", index=False)
+        df.to_csv("Data/scraped_data.csv", index=False)
     
