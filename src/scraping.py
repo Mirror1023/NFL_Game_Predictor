@@ -49,7 +49,7 @@ def scrape():
             df["Season"] = year
             df["Team"] = team_name.upper()
             all_games.append(df)
-            #time.sleep(1) # added to not stress the website with requests, but this line causes the entire loop to hang
+            time.sleep(2) # added to not stress the website with requests
 
     # combining all dataframes into one dataframe
     gamesdf = pd.concat(all_games)
@@ -67,7 +67,7 @@ def scrape():
     df.columns.values[3] = "time"
     df.columns.values[4] = "result"
     df.columns.values[6] = "record"
-    df.columns.values[7] = "home_team"
+    df.columns.values[7] = "@"
     df.columns.values[9] = "points_scored"
     df.columns.values[10] = "points_allowed"
     df.columns.values[11] = "1st_downs"
