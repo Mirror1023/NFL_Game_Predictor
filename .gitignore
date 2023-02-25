@@ -1,4 +1,5 @@
 venv/
+images/
 *.DS_Store
 *.log
 *src/.ipynb_checkpoints
