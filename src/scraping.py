@@ -6,6 +6,8 @@ from bs4 import BeautifulSoup
 import numpy as np
 import pandas as pd
 
+from src.paths import DATA_DIR
+
 # data scraping function 
 def scrape():
     """
@@ -103,4 +105,4 @@ def scrape():
     df = df[df['result'].notna()]
 
     # using pandas to convert the dataframe into a csv file.
-    df.to_csv("Data/scraped_data.csv", index=False)
+    df.to_csv(DATA_DIR / "scraped_data.csv", index=False)
