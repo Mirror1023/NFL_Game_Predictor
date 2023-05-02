@@ -1,3 +1,6 @@
+########## scraping.py ##########
+
+
 # common imports
 import requests
 import time
@@ -103,6 +106,10 @@ def scrape():
 
     # dropping bye week rows, playoff rows, games not played yet, etc.
     df = df[df['result'].notna()]
+    
+    # drop the canceled game that took place on 2022-01-02 20:00:00 between the Buffalo Bills @ Cincinnati Bengals
+    # all the stats for this game were canceled, the game didn't even finish the 1st half. 
+    df.drop(df[df['passyd'] == 'Canceled'].index, inplace = True)
 
     # using pandas to convert the dataframe into a csv file.
     df.to_csv(DATA_DIR / "scraped_data.csv", index=False)
