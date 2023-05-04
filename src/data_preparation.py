@@ -10,7 +10,7 @@ from typing import List
 
 from src.paths import DATA_DIR
 
-def load_scraped_data_from_disk(file_name: str) -> pd.DataFrame:
+def load_csv_data_from_disk(file_name: str) -> pd.DataFrame:
     """
     Loads CSV file that the scraper previously generated and saved locally
     to disk
@@ -215,9 +215,9 @@ def add_win_rates_last_n_games(
     for n in n_games:
         data[f'win_rate_last_{n}_games'] = (
             data
-            .groupby('team')['win']
+            .groupby(['team', 'season'])['win']
             .shift(1) # so we only use past games to avoid data leakage
-            .rolling(n, min_periods=0).mean()
+            .rolling(n, min_periods=n).mean()
             .reset_index(drop=True)
         )
 
@@ -250,12 +250,12 @@ def add_passing_rates_last_n_games(
     for n in n_games:
         data[f'pass_rate_last_{n}_games'] = (
             data
-            .groupby('team')['passyd']
+            .groupby(['team', 'season'])['passyd']
             .shift(1) # so we only use past games to avoid data leakage
-            .rolling(n, min_periods=0).mean()
+            .rolling(n, min_periods=n).mean()
             .reset_index(drop=True)
         )
-
+    
     return data
 
 
@@ -285,9 +285,9 @@ def add_rushing_rates_last_n_games(
     for n in n_games:
         data[f'rush_rate_last_{n}_games'] = (
             data
-            .groupby('team')['rushyd']
+            .groupby(['team', 'season'])['rushyd']
             .shift(1) # so we only use past games to avoid data leakage
-            .rolling(n, min_periods=0).mean()
+            .rolling(n, min_periods=n).mean()
             .reset_index(drop=True)
         )
 
@@ -320,9 +320,9 @@ def add_passing_allowed_rates_last_n_games(
     for n in n_games:
         data[f'pass_allowed_rate_last_{n}_games'] = (
             data
-            .groupby('team')['passyd_allowed']
+            .groupby(['team', 'season'])['passyd_allowed']
             .shift(1) # so we only use past games to avoid data leakage
-            .rolling(n, min_periods=0).mean()
+            .rolling(n, min_periods=n).mean()
             .reset_index(drop=True)
         )
 
@@ -355,9 +355,9 @@ def add_rushing_allowed_rates_last_n_games(
     for n in n_games:
         data[f'rush_allowed_rate_last_{n}_games'] = (
             data
-            .groupby('team')['rushyd_allowed']
+            .groupby(['team', 'season'])['rushyd_allowed']
             .shift(1) # so we only use past games to avoid data leakage
-            .rolling(n, min_periods=0).mean()
+            .rolling(n, min_periods=n).mean()
             .reset_index(drop=True)
         )
 
@@ -395,9 +395,9 @@ def add_ot_rates_last_n_games(
     for n in n_games:
         data[f'ot_rate_last_{n}_games'] = (
             data
-            .groupby('team')['ot']
+            .groupby(['team', 'season'])['ot']
             .shift(1) # so we only use past games to avoid data leakage
-            .rolling(n, min_periods=0).mean()
+            .rolling(n, min_periods=n).mean()
             .reset_index(drop=True)
         )
 
@@ -434,9 +434,9 @@ def add_to_rates_last_n_games(
     for n in n_games:
         data[f'to_rate_last_{n}_games'] = (
             data
-            .groupby('team')['to']
+            .groupby(['team', 'season'])['to']
             .shift(1) # so we only use past games to avoid data leakage
-            .rolling(n, min_periods=0).mean()
+            .rolling(n, min_periods=n).mean()
             .reset_index(drop=True)
         )
 
@@ -473,9 +473,9 @@ def add_to_forced_rates_last_n_games(
     for n in n_games:
         data[f'to_forced_rate_last_{n}_games'] = (
             data
-            .groupby('team')['to_forced']
+            .groupby(['team', 'season'])['to_forced']
             .shift(1) # so we only use past games to avoid data leakage
-            .rolling(n, min_periods=0).mean()
+            .rolling(n, min_periods=n).mean()
             .reset_index(drop=True)
         )
 
@@ -508,9 +508,9 @@ def add_points_scored_rates_last_n_games(
     for n in n_games:
         data[f'points_scored_rate_last_{n}_games'] = (
             data
-            .groupby('team')['points_scored']
+            .groupby(['team', 'season'])['points_scored']
             .shift(1) # so we only use past games to avoid data leakage
-            .rolling(n, min_periods=0).mean()
+            .rolling(n, min_periods=n).mean()
             .reset_index(drop=True)
         )
 
@@ -543,9 +543,9 @@ def add_points_allowed_rates_last_n_games(
     for n in n_games:
         data[f'points_allowed_rate_last_{n}_games'] = (
             data
-            .groupby('team')['points_allowed']
+            .groupby(['team', 'season'])['points_allowed']
             .shift(1) # so we only use past games to avoid data leakage
-            .rolling(n, min_periods=0).mean()
+            .rolling(n, min_periods=n).mean()
             .reset_index(drop=True)
         )
 
@@ -576,11 +576,11 @@ def add_1st_down_rates_last_n_games(
     data = sort_data_by_team_and_datetime(data)
     
     for n in n_games:
-        data[f'1st_down_rate_last_{n}_games'] = (
+        data[f'1st_downs_rate_last_{n}_games'] = (
             data
-            .groupby('team')['1st_downs']
+            .groupby(['team', 'season'])['1st_downs']
             .shift(1) # so we only use past games to avoid data leakage
-            .rolling(n, min_periods=0).mean()
+            .rolling(n, min_periods=n).mean()
             .reset_index(drop=True)
         )
 
@@ -611,11 +611,11 @@ def add_1st_down_allowed_rates_last_n_games(
     data = sort_data_by_team_and_datetime(data)
     
     for n in n_games:
-        data[f'1st_down_allowed_rate_last_{n}_games'] = (
+        data[f'1st_downs_allowed_rate_last_{n}_games'] = (
             data
-            .groupby('team')['1st_downs_allowed']
+            .groupby(['team', 'season'])['1st_downs_allowed']
             .shift(1) # so we only use past games to avoid data leakage
-            .rolling(n, min_periods=0).mean()
+            .rolling(n, min_periods=n).mean()
             .reset_index(drop=True)
         )
 
