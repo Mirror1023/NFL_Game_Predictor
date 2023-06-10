@@ -1,5 +1,6 @@
 venv/
 images/
+Notebooks/
 *.DS_Store
 *.log
 *src/.ipynb_checkpoints

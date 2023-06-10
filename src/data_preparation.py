@@ -12,8 +12,7 @@ from src.paths import DATA_DIR
 
 def load_csv_data_from_disk(file_name: str) -> pd.DataFrame:
     """
-    Loads CSV file that the scraper previously generated and saved locally
-    to disk
+    Loads CSV files that were previously generated and saved locally
 
     Args:
         file_name (str): name of the CSV file (not the path, just the name)
@@ -186,6 +185,29 @@ def sort_data_by_team_and_datetime(data: pd.DataFrame) -> pd.DataFrame:
     return data.sort_values(by=['team', 'date_time'], ascending=[True, True], ignore_index=True)#.reset_index(drop=True)
 
 
+
+def convert_week_objects(data: pd.DataFrame) -> pd.DataFrame:
+    """
+    converts playoff weeks to follow week numbers (wildcard = 19, divisional = 20, and so on... for seasons 2021+).
+    but remember - before 2021, teams only played 17 week regular seasons, so wildcard would be = to 18 for these years. 
+    For the seasons of 2021 and beyond, teams play an 18 week season.
+    """
+    data.loc[(data['season'] >= 2021) & (data['week'] == 'Wild Card'), 'week'] = 19
+    data.loc[(data['season'] >= 2021) & (data['week'] == 'Division'), 'week'] = 20
+    data.loc[(data['season'] >= 2021) & (data['week'] == 'Conf. Champ.'), 'week'] = 21
+    data.loc[(data['season'] >= 2021) & (data['week'] == 'SuperBowl'), 'week'] = 23
+    data.loc[(data['season'] < 2021) & (data['week'] == 'Wild Card'), 'week'] = 18
+    data.loc[(data['season'] < 2021) & (data['week'] == 'Division'), 'week'] = 19
+    data.loc[(data['season'] < 2021) & (data['week'] == 'Conf. Champ.'), 'week'] = 20
+    data.loc[(data['season'] < 2021) & (data['week'] == 'SuperBowl'), 'week'] = 22
+    
+    # convert week column to numeric data type
+    data['week'] = pd.to_numeric(data['week'])
+    
+    return data
+
+
+
 ### FEATURE ENGINEERING ###   ### FEATURE ENGINEERING ###   ### FEATURE ENGINEERING ###
 
 
@@ -204,7 +226,7 @@ def add_win_rates_last_n_games(
 
     Returns:
         pd.DataFrame: a DataFrame with added columns for win rate in the last N matches played by each team, 
-        where N is specified in the n_matches parameter.
+        where N is specified in the n_matches parameter. The DataFrame is sorted by team and datetime.
     """
     # make sure the data is sorted by team and datetime
     data = sort_data_by_team_and_datetime(data)

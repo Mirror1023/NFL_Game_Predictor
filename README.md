@@ -1,4 +1,6 @@
-# NFL Game Predictor
+<div align="center">
+    <h1>NFL Game Predictor<h1>
+</div>
 
 The goal of this project is to build a model where users can input a "Home Team" and "Away Team" to predict which team would win in a head-to-head matchup. The model will also predict the upcoming slate of games for the week. Accordingly, we will also fetch new data on a weekly basis while the model is live.  
 
